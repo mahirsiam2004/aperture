@@ -1,6 +1,8 @@
 import React from "react";
 import Top from "./Top";
 import Logo from "./LOGO/logo";
+import { NavLink } from "react-router";
+import { Link } from "lucide-react";
 // Ensure this path is correct for your project structure
 // import logo from "../assets/logo.png"; 
 
@@ -52,9 +54,9 @@ const Navbar = () => {
           </div>
 
           {/* Logo and Brand Text */}
-          <a className=" flex items-center gap-2 px-2">
+          <NavLink to={"/"} className=" flex items-center gap-2 px-2">
 <Logo></Logo>
-          </a>
+          </NavLink>
         </div>
 
         {/* Center Side: Desktop Menu */}
@@ -66,9 +68,9 @@ const Navbar = () => {
 
         {/* Right Side: Action Button */}
         <div className="navbar-end">
-          <a className="btn btn-primary btn-sm md:btn-md px-6 rounded-full">
+          <NavLink to={"/login"} className="btn btn-primary btn-sm md:btn-md px-6 rounded-full">
             Sign In
-          </a>
+          </NavLink>
         </div>
       </div>
     </div>
