@@ -25,6 +25,7 @@ async function run() {
 
     const db = client.db("aperture");
     const booksCollection = db.collection("Books");
+    const usersCollection = db.collection("Users");
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -36,6 +37,10 @@ async function run() {
       const result = await booksCollection.find().toArray();
       res.send(result);
     });
+
+    app.post("/create-user", async(req,res)=>{
+      
+    })
 
   } 
   
