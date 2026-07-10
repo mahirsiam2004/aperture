@@ -4,12 +4,20 @@ import { AuthContext } from "../context/AuthContext";
 
 export const Login = () => {
 
-  const {loginWithGoogle} =use(AuthContext);
+  const {loginWithGoogle,loginUser} =use(AuthContext);
 
 const handleLogin=(e)=>{
   e.preventDefault();
   const email=e.target.email.value;
   const password=e.target.password.value;
+
+loginUser(email,password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
 
 

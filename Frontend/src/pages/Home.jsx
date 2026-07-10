@@ -5,7 +5,7 @@ import FeaturedBooks from "../components/FeaturedBooks";
 
 export const Home = () => {
   return (
-    <div>
+    <div className="geomini">
       <Banner></Banner>
       <div className="mt-10 h-20 p-2 flex items-center bg-[#FFEFEF] rounded-2xl">
         <div className="flex gap-2 bg-[#FFEFEF] w-2xs mx-auto">
