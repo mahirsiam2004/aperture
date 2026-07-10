@@ -1,12 +1,26 @@
-import React from "react";
+import React, { use } from "react";
 import Top from "./Top";
 import Logo from "./LOGO/logo";
 import { NavLink } from "react-router";
 import { Link } from "lucide-react";
+import { AuthContext } from "../context/AuthContext";
 // Ensure this path is correct for your project structure
 // import logo from "../assets/logo.png"; 
 
 const Navbar = () => {
+const {loading,user,logoutUser} = use(AuthContext);
+
+
+const handleLogOut=()=>{
+  logoutUser()
+        .then((result) => {
+          console.log(result.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+}
+
   // Define links here to avoid repeating them for mobile and desktop
   const navLinks = (
     <>
@@ -14,6 +28,7 @@ const Navbar = () => {
       <li><a className="font-medium">Shop</a></li>
       <li><a className="font-medium">Services</a></li>
       <li><a className="font-medium">Contact</a></li>
+      <li><a className="font-medium">Dashboard</a></li>
     </>
   );
 
@@ -68,9 +83,13 @@ const Navbar = () => {
 
         {/* Right Side: Action Button */}
         <div className="navbar-end">
-          <NavLink to={"/login"} className="btn btn-primary btn-sm md:btn-md px-6 rounded-full">
+{
+  user ? <div onClick={handleLogOut} className="btn btn-primary">Logout</div>
+  :
+            <NavLink to={"/login"} className="btn btn-primary btn-sm md:btn-md px-6 rounded-full">
             Sign In
           </NavLink>
+}
         </div>
       </div>
     </div>

@@ -1,37 +1,65 @@
-import React, { Children } from 'react'
-import { AuthContext } from './AuthContext';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth } from '../firebase/firebase.config';
+import React, { Children, useEffect, useState } from "react";
+import { AuthContext } from "./AuthContext";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import { auth } from "../firebase/firebase.config";
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
+  const googleProvider = new GoogleAuthProvider();
 
-const googleProvider = new GoogleAuthProvider();
+  const [user,setUser] = useState(null);
+  const [loading,setLoading]= useState(true);
 
-    const loginWithGoogle = ()=>{
-      return signInWithPopup(auth,googleProvider);
+  const loginWithGoogle = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
+
+  const registerUser = (email, password) => {
+        setLoading(true)
+
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const loginUser = (email, password) => {
+    setLoading(true)
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logoutUser = () => {
+    setLoading(true)
+    return signOut(auth);
+  };
+
+
+  useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
+      setUser(currentUser)
+      setLoading(false);
+    })
+
+    return ()=>{
+      unsubscribe();
     }
+  },[])
 
 
-    const registerUser=(email,password)=>{
-      return createUserWithEmailAndPassword(auth,email,password);
-    }
+  const authInfo = {
+    loginWithGoogle,
+    registerUser,
+    logoutUser,
+    loginUser,
+    loading,
+    user
+  };
 
+  return <AuthContext value={authInfo}>{children}</AuthContext>;
+};
 
-    const loginUser=(email,password)=>{
-      return signInWithEmailAndPassword(auth,email,password);
-    }
-
-const authInfo={
-loginWithGoogle,
-registerUser
-}
-
-
-  return (
-    <AuthContext value={authInfo}  >
-        {children}
-    </AuthContext>
-  )
-}
-
-export default AuthProvider
+export default AuthProvider;
