@@ -1,8 +1,11 @@
 import { Link } from "lucide-react";
 import React, { use } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useLocation, useNavigate } from "react-router";
 
 export const Login = () => {
+  const location =useLocation();
+  const navigate=useNavigate();
 
   const {loginWithGoogle,loginUser} =use(AuthContext);
 
@@ -28,6 +31,7 @@ const handleGoogleLogin =()=>{
   loginWithGoogle()
         .then((result) => {
           console.log(result.user);
+          navigate(location?.state || "/")
         })
         .catch((err) => {
           console.log(err);

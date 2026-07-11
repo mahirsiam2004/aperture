@@ -24,11 +24,13 @@ const handleLogOut=()=>{
   // Define links here to avoid repeating them for mobile and desktop
   const navLinks = (
     <>
-      <li><a className="font-medium">Home</a></li>
-      <li><a className="font-medium">Shop</a></li>
-      <li><a className="font-medium">Services</a></li>
-      <li><a className="font-medium">Contact</a></li>
-      <li><a className="font-medium">Dashboard</a></li>
+      <li><NavLink to={"/"} className="font-medium">Home</NavLink></li>
+      <li><NavLink to={"/shop"} className="font-medium">Shop</NavLink></li>
+      <li><NavLink to={"/services"} className="font-medium">Services</NavLink></li>
+      <li><NavLink to={"contact"} className="font-medium">Contact</NavLink></li>
+     {
+      user &&  <li><NavLink to={"/dashboard"} className="font-medium">Dashboard</NavLink></li>
+     }
     </>
   );
 
