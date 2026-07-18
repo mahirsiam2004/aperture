@@ -5,43 +5,60 @@ import { NavLink } from "react-router";
 import { Link } from "lucide-react";
 import { AuthContext } from "../context/AuthContext";
 // Ensure this path is correct for your project structure
-// import logo from "../assets/logo.png"; 
+// import logo from "../assets/logo.png";
 
 const Navbar = () => {
-const {loading,user,logoutUser} = use(AuthContext);
+  const { loading, user, logoutUser } = use(AuthContext);
 
-
-const handleLogOut=()=>{
-  logoutUser()
-        .then((result) => {
-          console.log(result.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-}
+  const handleLogOut = () => {
+    logoutUser()
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Define links here to avoid repeating them for mobile and desktop
   const navLinks = (
     <>
-      <li><NavLink to={"/"} className="font-medium">Home</NavLink></li>
-      <li><NavLink to={"/shop"} className="font-medium">Shop</NavLink></li>
-      <li><NavLink to={"/services"} className="font-medium">Services</NavLink></li>
-      <li><NavLink to={"contact"} className="font-medium">Contact</NavLink></li>
-     {
-      user &&  <li><NavLink to={"/dashboard"} className="font-medium">Dashboard</NavLink></li>
-     }
+      <li>
+        <NavLink to={"/"} className="font-medium">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/shop"} className="font-medium">
+          Shop
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/services"} className="font-medium">
+          Services
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"contact"} className="font-medium">
+          Contact
+        </NavLink>
+      </li>
+      {user && (
+        <li>
+          <NavLink to={"/dashboard"} className="font-medium">
+            Dashboard
+          </NavLink>
+        </li>
+      )}
     </>
   );
 
   return (
     <div className="w-full bg-[#fafafa]">
- 
       <Top />
 
       {/* Main Navbar */}
       <div className="navbar shadow-sm px-2 md:px-8">
-        
         {/* Left Side: Mobile Menu & Logo */}
         <div className="navbar-start">
           {/* Mobile Dropdown */}
@@ -60,6 +77,7 @@ const handleLogOut=()=>{
                   strokeWidth="2"
                   d="M4 6h16M4 12h8m-8 6h16"
                 />
+
               </svg>
             </div>
             <ul
@@ -72,26 +90,29 @@ const handleLogOut=()=>{
 
           {/* Logo and Brand Text */}
           <NavLink to={"/"} className=" flex items-center gap-2 px-2">
-<Logo></Logo>
+            <Logo></Logo>
           </NavLink>
         </div>
 
         {/* Center Side: Desktop Menu */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 gap-2">
-            {navLinks}
-          </ul>
+          <ul className="menu menu-horizontal px-1 gap-2">{navLinks}</ul>
         </div>
 
         {/* Right Side: Action Button */}
         <div className="navbar-end">
-{
-  user ? <div onClick={handleLogOut} className="btn btn-primary">Logout</div>
-  :
-            <NavLink to={"/login"} className="btn btn-primary btn-sm md:btn-md px-6 rounded-full">
-            Sign In
-          </NavLink>
-}
+          {user ? (
+            <div onClick={handleLogOut} className="btn btn-primary">
+              Logout
+            </div>
+          ) : (
+            <NavLink
+              to={"/login"}
+              className="btn btn-primary btn-sm md:btn-md px-6 rounded-full"
+            >
+              Sign In
+            </NavLink>
+          )}
         </div>
       </div>
     </div>
