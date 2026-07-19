@@ -7,6 +7,21 @@ app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
+const verifyFirebaseToken = (req, res, next) => {
+  console.log(req.headers.authorization);
+
+  if (!req.headers.authorization) {
+    return res.status(401).send("sala vag , tui unauthorized");
+  }
+
+  const token = req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return res.status(401).send("sala vag , tui unauthorized");
+  }
+
+  next();
+};
+
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = process.env.MONGO_URI;
 
@@ -39,7 +54,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/book/:id", async (req, res) => {
+    app.get("/book/:id", verifyFirebaseToken, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await booksCollection.findOne(query);
@@ -47,14 +62,9 @@ async function run() {
       res.status(200).send(result);
     });
 
-
-    
-
     // app.post("/create-user", async(req,res)=>{
 
     // })
-
-
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();

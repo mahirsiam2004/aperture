@@ -13,7 +13,11 @@ const BookDetails = () => {
     const serverUrl = import.meta.env.VITE_SERVER_API;
     if (!serverUrl) return;
 
-    fetch(`${serverUrl}/book/${id}`)
+    fetch(`${serverUrl}/book/${id}`,{
+      headers:{
+        authorization:`Bearar ${user.accessToken}`
+      }
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
