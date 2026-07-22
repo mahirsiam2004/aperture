@@ -2,7 +2,7 @@ import React from "react";
 import Banner from "../components/Banner";
 import { HandCoins, Headset, Shield, Truck } from "lucide-react";
 import FeaturedBooks from "../components/FeaturedBooks";
-import TopRatingBooks from "../components/TopRatingBooks";
+import TopSellingBooks from "../components/TopSellingBooks";
 
 export const Home = () => {
   return (
@@ -61,8 +61,8 @@ Secure Payment</h2>
       </div>
 
 
-{/* Top Rating Books */}
-      <TopRatingBooks></TopRatingBooks>
+{/* Top Selling Books */}
+      <TopSellingBooks></TopSellingBooks>
 
       {/* Featured Books */}
       <FeaturedBooks></FeaturedBooks>
