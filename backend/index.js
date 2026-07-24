@@ -7,7 +7,15 @@ app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
-const verifyFirebaseToken = (req, res, next) => {
+const admin = require("firebase-admin");
+
+var serviceAccount = require("./firebase_admin_sdk.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const verifyFirebaseToken = async (req, res, next) => {
   console.log(req.headers.authorization);
 
   if (!req.headers.authorization) {
@@ -19,7 +27,12 @@ const verifyFirebaseToken = (req, res, next) => {
     return res.status(401).send("sala vag , tui unauthorized");
   }
 
-  next();
+  try {
+    await admin.auth().verifyIdToken(token);
+    next();
+  } catch {
+    return res.status(401).send("sala vag , tui unauthorized");
+  }
 };
 
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
