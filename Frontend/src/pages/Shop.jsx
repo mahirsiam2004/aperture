@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Search, ChevronDown, Star, Grid, List, ShoppingCart } from "lucide-react";
+import {
+  Search,
+  ChevronDown,
+  Star,
+  Grid,
+  List,
+  ShoppingCart,
+} from "lucide-react";
+import { useEffect } from "react";
 
 const products = [
   {
@@ -132,7 +140,11 @@ const categories = [
   "Food & Drink",
 ];
 
-const StarRating = ({ count, filledColor = "#FFB800", emptyColor = "#CBD5E0" }) => {
+const StarRating = ({
+  count,
+  filledColor = "#FFB800",
+  emptyColor = "#CBD5E0",
+}) => {
   return (
     <div className="flex items-center gap-0.5">
       {Array.from({ length: 5 }).map((_, i) => (
@@ -151,6 +163,29 @@ const StarRating = ({ count, filledColor = "#FFB800", emptyColor = "#CBD5E0" }) 
 const Shop = () => {
   const [view, setView] = useState("grid");
 
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch products from backend API safely
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_SERVER_API}/books`,
+        );
+        if (!response.ok) throw new Error("Failed to fetch");
+        const data = await response.json();
+        setBooks(data);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -166,7 +201,9 @@ const Shop = () => {
               <button
                 onClick={() => setView("grid")}
                 className={`p-1.5 rounded ${
-                  view === "grid" ? "bg-[#FF6363] text-white" : "text-[#718096] hover:bg-gray-100"
+                  view === "grid"
+                    ? "bg-[#FF6363] text-white"
+                    : "text-[#718096] hover:bg-gray-100"
                 }`}
               >
                 <Grid size={18} />
@@ -174,7 +211,9 @@ const Shop = () => {
               <button
                 onClick={() => setView("list")}
                 className={`p-1.5 rounded ${
-                  view === "list" ? "bg-[#FF6363] text-white" : "text-[#718096] hover:bg-gray-100"
+                  view === "list"
+                    ? "bg-[#FF6363] text-white"
+                    : "text-[#718096] hover:bg-gray-100"
                 }`}
               >
                 <List size={18} />
@@ -189,20 +228,27 @@ const Shop = () => {
           <aside className="w-full lg:w-1/4 flex-shrink-0">
             {/* Search Box */}
             <div className="mb-6">
-              <h3 className="text-base font-bold text-[#2B303A] mb-2">Search</h3>
+              <h3 className="text-base font-bold text-[#2B303A] mb-2">
+                Search
+              </h3>
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search here..."
                   className="w-full border border-[#E2E8F0] rounded-md px-4 py-2.5 pr-10 text-sm text-[#2B303A] focus:outline-none focus:border-[#FF6363]"
                 />
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-[#718096]" size={18} />
+                <Search
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#718096]"
+                  size={18}
+                />
               </div>
             </div>
 
             {/* Categories */}
             <div className="mb-6">
-              <h3 className="text-base font-bold text-[#2B303A] mb-3">Categories</h3>
+              <h3 className="text-base font-bold text-[#2B303A] mb-3">
+                Categories
+              </h3>
               <div className="space-y-2">
                 <button className="w-full text-left px-4 py-2 rounded-md bg-[#FF6363] text-white text-sm font-medium">
                   Arts & Photography
@@ -220,26 +266,36 @@ const Shop = () => {
 
             {/* Product Status */}
             <div className="mb-6">
-              <h3 className="text-base font-bold text-[#2B303A] mb-3">Product Status</h3>
+              <h3 className="text-base font-bold text-[#2B303A] mb-3">
+                Product Status
+              </h3>
               <div className="space-y-3">
                 <div className="relative">
                   <select className="w-full border border-[#E2E8F0] rounded-md px-4 py-2.5 text-sm text-[#2B303A] focus:outline-none focus:border-[#FF6363] appearance-none bg-white">
                     <option>In Stock</option>
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#718096]" size={16} />
+                  <ChevronDown
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#718096]"
+                    size={16}
+                  />
                 </div>
                 <div className="relative">
                   <select className="w-full border border-[#E2E8F0] rounded-md px-4 py-2.5 text-sm text-[#2B303A] focus:outline-none focus:border-[#FF6363] appearance-none bg-white">
                     <option>On Sale</option>
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#718096]" size={16} />
+                  <ChevronDown
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#718096]"
+                    size={16}
+                  />
                 </div>
               </div>
             </div>
 
             {/* Filter By Price */}
             <div className="mb-6">
-              <h3 className="text-base font-bold text-[#2B303A] mb-3">Filter By Price</h3>
+              <h3 className="text-base font-bold text-[#2B303A] mb-3">
+                Filter By Price
+              </h3>
               <div className="relative h-2 mb-4">
                 <div className="absolute h-full w-full bg-[#E2E8F0] rounded-full"></div>
                 <div className="absolute h-full w-2/3 bg-[#FF6363] rounded-full"></div>
@@ -264,7 +320,9 @@ const Shop = () => {
 
             {/* By Review */}
             <div className="mb-2">
-              <h3 className="text-base font-bold text-[#2B303A] mb-3">By Review</h3>
+              <h3 className="text-base font-bold text-[#2B303A] mb-3">
+                By Review
+              </h3>
               <div className="space-y-3">
                 {[
                   { stars: 5, count: 35 },
@@ -273,10 +331,18 @@ const Shop = () => {
                   { stars: 2, count: 2 },
                   { stars: 1, count: 1 },
                 ].map((item) => (
-                  <label key={item.stars} className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="w-4 h-4 accent-[#FF6363] rounded" />
+                  <label
+                    key={item.stars}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 accent-[#FF6363] rounded"
+                    />
                     <StarRating count={item.stars} />
-                    <span className="text-xs text-[#718096]">({item.count})</span>
+                    <span className="text-xs text-[#718096]">
+                      ({item.count})
+                    </span>
                   </label>
                 ))}
               </div>
@@ -302,7 +368,9 @@ const Shop = () => {
                   {/* Image Container */}
                   <div
                     className={`relative bg-[#FFF2F2] flex items-center justify-center ${
-                      view === "list" ? "w-48 h-40 flex-shrink-0" : "aspect-[4/5]"
+                      view === "list"
+                        ? "w-48 h-40 flex-shrink-0"
+                        : "aspect-[4/5]"
                     }`}
                   >
                     <div className="w-3/4 h-3/4 bg-gray-200 rounded-md"></div>
@@ -321,11 +389,17 @@ const Shop = () => {
                   </div>
 
                   {/* Card Info */}
-                  <div className={`p-3 flex flex-col ${view === "list" ? "flex-1 justify-center" : ""}`}>
-                    <h4 className="text-sm font-bold text-[#2B303A] truncate mb-2">{product.title}</h4>
+                  <div
+                    className={`p-3 flex flex-col ${view === "list" ? "flex-1 justify-center" : ""}`}
+                  >
+                    <h4 className="text-sm font-bold text-[#2B303A] truncate mb-2">
+                      {product.title}
+                    </h4>
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-[#2B303A]">${product.price.toFixed(2)}</span>
+                        <span className="text-sm font-bold text-[#2B303A]">
+                          ${product.price.toFixed(2)}
+                        </span>
                         {product.oldPrice && (
                           <span className="text-xs text-[#718096] line-through">
                             ${product.oldPrice.toFixed(2)}
@@ -333,7 +407,12 @@ const Shop = () => {
                         )}
                       </div>
                       <div className="flex items-center gap-1">
-                        <Star size={13} fill="#FFB800" stroke="#FFB800" strokeWidth={2} />
+                        <Star
+                          size={13}
+                          fill="#FFB800"
+                          stroke="#FFB800"
+                          strokeWidth={2}
+                        />
                         <span className="text-xs text-[#718096]">
                           {product.rating} ({product.reviews})
                         </span>

@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import PrivateRoutes from "./PrivateRoutes";
 import BookDetails from "../pages/BookDetails";
 import Shop from "../pages/Shop";
+import AboutPage from "../pages/About";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         Component: Register,
+      },
+      {
+        path: "/about",
+        Component: AboutPage,
       },
       {
         path: "/book/:id",
